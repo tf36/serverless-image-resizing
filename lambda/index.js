@@ -38,7 +38,7 @@ exports.handler = function(event, context, callback) {
         return;
     }
 
-    S3.getObject({Bucket: BUCKET, Key: originalKey}).promise()
+    S3.getObject({Bucket: BUCKET, Key: `original/${originalKey}`}).promise()
         .then(data => Sharp(data.Body)
             .resize(width, height)
             .embed()
