@@ -6,6 +6,9 @@
   "repository": "https://github.com/awslabs/serverless-image-resizing",
   "license": "Apache-2.0",
   "main": "index.js",
+  "scripts": {
+    "dockerbuild": "docker run -v \"$PWD\":/var/task lambci/lambda:build-nodejs6.10"
+  },
   "dependencies": {
     "sharp": "^0.17.3"
   },
