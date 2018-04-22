@@ -7,7 +7,7 @@
   "license": "Apache-2.0",
   "main": "index.js",
   "scripts": {
-    "dockerbuild": "docker run -v \"$PWD\":/var/task lambci/lambda:build-nodejs6.10"
+    "dockerbuild": "docker run -v \"$PWD\":/var/task lambci/lambda:build-nodejs6.10 npm install"
   },
   "dependencies": {
     "sharp": "^0.17.3"

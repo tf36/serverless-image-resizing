@@ -26,9 +26,10 @@ exports.handler = function(event, context, callback) {
     const width = (match[2] && !isNaN(match[2]) && parseInt(match[2], 10)) || null;
     const height = (match[3] && !isNaN(match[3]) && parseInt(match[3], 10)) || null;
     const originalKey = match[4];
+    const saveKey = 'photos/' + (width || '') + 'x' + (height || '') + '/' + originalKey;
 
     //Simple check if proper arguments given
-    if (width || height) {
+    if (!width && !height) {
         callback(null, {
             statusCode: '403',
             headers: {},
@@ -38,7 +39,7 @@ exports.handler = function(event, context, callback) {
         return;
     }
 
-    S3.getObject({Bucket: BUCKET, Key: `original/${originalKey}`}).promise()
+    S3.getObject({Bucket: BUCKET, Key: `photos/original/${originalKey}`}).promise()
         .then(data => Sharp(data.Body)
             .resize(width, height)
             .embed()
@@ -48,12 +49,12 @@ exports.handler = function(event, context, callback) {
                 Body: buffer,
                 Bucket: BUCKET,
                 ContentType: 'image/png',
-                Key: key,
+                Key: saveKey,
             }).promise()
         )
         .then(() => callback(null, {
                 statusCode: '301',
-                headers: {'location': `${URL}/${key}`},
+                headers: {'location': `${URL}/${saveKey}`},
                 body: '',
             })
         )
